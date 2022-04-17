@@ -1,0 +1,53 @@
+module clk_divider(clk,btnC,clk_LF);
+input clk,btnC;
+output reg clk_LF; 
+
+reg [2:0] Fout;
+//reg clk_LF;
+reg clk1;
+reg [23:0] count;
+initial
+begin
+count=0;
+end
+// clk_wiz_0_clk_wiz (clk,clk_lf,btnC);
+
+always @ (posedge clk or posedge btnC)
+ begin
+ if(btnC)
+   begin 
+ Fout=0;
+ clk1=0;
+
+
+ end 
+else 
+    begin 
+    Fout <= Fout + 1'b1;
+    clk1 <=Fout[2];
+end
+
+always @ (posedge clk1 or posedge btnC )
+begin
+  count <= count + 1'b1;
+
+ if(btnC==1)
+  begin 
+   count<=0;
+    clk_LF<=0;
+end 
+else
+ begin
+if (count ==24'd320000)     
+ begin 
+ clk_LF<=~clk_LF; 
+ count<=0;
+  end 
+  end
+ 
+end
+
+
+
+
+endmodule
